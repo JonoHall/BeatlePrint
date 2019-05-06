@@ -20,5 +20,25 @@ Do the same for "Restrict access to the admin pages..." and "Restrict access to 
 > sudo usermod -a -G lpadmin pi
 > sudo /etc/init.d/cups restart
 
+--
+Download star driver
+--
+
+> cd ~
+> mkdir stardriver
+> cd ~/stardriver/
+> wget https://github.com/JonoHall/BeatlePrint/raw/master/starcupsdrv-3.8.0_linux/SourceCode/starcupsdrv-src-3.8.0.tar.gz
+> sudo apt-get install gcc
+> sudo apt-get install libcups2-dev
+> sudo apt-get install libcupsimage2-dev
+> tar xzvf starcupsdrv-src-3.8.0.tar.gz
+> cd starcupsdrv
+> sudo make
+> sudo make install
+
 ----------
 Access via https://192.168.1.69:631/admin/ NOT hostname (i.e. http://beatle)
+
+Add printer:
+lpd://192.168.1.64/TSP650II
+Choose PPD file from downloaded linux drivers
