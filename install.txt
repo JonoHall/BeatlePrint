@@ -1,0 +1,24 @@
+## Install Raspbian (2019-04-08-raspbian-stretch-full.zip) onto SD card using https://www.balena.io/etcher/
+> sudo apt-get update
+> sudo apt-get dist-upgrade
+> sudo apt-get install xvfb libfontconfig wkhtmltopdf
+> sudo apt-get install cups
+> sudo nano /etc/cups/cupsd.conf
+
+----------
+Change:
+Listen localhost:631 -> Port 631
+
+Change access levels:
+# Restrict access to the server...
+Order allow,deny
+Allow all (this is a new line)
+
+Do the same for "Restrict access to the admin pages..." and "Restrict access to the configuration files..."
+----------
+
+> sudo usermod -a -G lpadmin pi
+> sudo /etc/init.d/cups restart
+
+----------
+Access via https://192.168.1.69:631/admin/ NOT hostname (i.e. http://beatle)
