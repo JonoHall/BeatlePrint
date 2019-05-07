@@ -1,4 +1,5 @@
-## Install Raspbian (2019-04-08-raspbian-stretch-full.zip) onto SD card using https://www.balena.io/etcher/
+## Install Raspbian Lite (2019-04-08-raspbian-stretch-lite.zip) onto SD card using https://www.balena.io/etcher/
+## Add a file called "ssh" to the root of the newly flashed card
 > sudo apt-get update
 > sudo apt-get dist-upgrade
 > sudo apt-get install xvfb libfontconfig wkhtmltopdf
@@ -42,3 +43,35 @@ Access via https://192.168.1.69:631/admin/ NOT hostname (i.e. http://beatle)
 Add printer:
 lpd://192.168.1.64/TSP650II
 Choose PPD file from downloaded linux drivers
+
+Change printer settings to cut after each page
+Maintainence -> Set default options -> Cut Options -> 1. Page Cut Type -> Partial Cut
+
+----------
+
+> sudo adduser print
+> sudo passwd print
+> su print
+> ssh-keygen
+----------
+
+Log into a heroku instance:
+
+> heroku run bash
+
+Remove existing approved host
+> ssh-keygen -f "/app/.ssh/known_hosts" -R local.fibreglassshop.co.nz
+
+Get new approved host hash
+> ssh printer@local.fibreglassshop.co.nz
+> cat .ssh/known_hosts
+
+Copy newly generated id_rsa and id_rsa.pub to Heroku
+> ssh-keygen
+id_rsa -> HEROKU_PRIVATE_KEY
+id_rsa.pub -> HEROKU_PUBLIC_KEY (NO NEW LINES/SPACES ETC)
+
+Copy to Heroku known_hosts variable (through the heroku admin)
+
+Copy keys to the Beatle
+> ssh-copy-id -i ~/.ssh/id_rsa print@local.fibreglassshop.co.nz
